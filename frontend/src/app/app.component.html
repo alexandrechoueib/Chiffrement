@@ -1,0 +1,16 @@
+<li class="list-group-item">
+  <fieldset>
+    <legend>Chat</legend>
+    <p> Bonjour : {{ getClient().id }} </p>
+    <p> Votre age : {{ getClient().age }} </p>
+    <fieldset id="cadre">
+      <p> Message : </p>
+      <p id="conversation"  id="messageRecu" *ngFor="let message of messages"> {{ message }} </p>
+    </fieldset>
+    <input type="text" style="width : 100%;" name="newMessage" [(ngModel)] ="message" />
+    <button (click) ="onSubmit()">Send message</button>
+  </fieldset>
+</li>
+
+
+
