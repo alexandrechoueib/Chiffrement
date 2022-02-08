@@ -62,8 +62,6 @@ export class KeyService {
      publicKey.setE(e);
      publicKey.setM(m);
 
-     console.log(publicKey)
-
      return publicKey;
   } 
 
@@ -84,9 +82,7 @@ export class KeyService {
     
     let privateKey = new PrivateKey();
     privateKey.setN(publicKey.getN());
-    privateKey.setU(u);
-    console.log(privateKey);
-    
+    privateKey.setU(u);    
     return privateKey;
   }
 
