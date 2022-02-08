@@ -25,11 +25,11 @@ export class MessageService {
   }
 
 
-  sendMessageTo(id_client : string,id_destinataire : string , message_client : string ): void {
+  sendMessageTo(destinataire : Client , message : String ): void {
     this.socket.emit('sendMessageTo', {
-      id_envoyeur : id_client ,
-      id_destinataire : id_destinataire,
-      message : message_client 
+      'id_socket' : destinataire.getSocket(),
+      'name' : destinataire.getName(),
+      'message' : message
     })
   }
 

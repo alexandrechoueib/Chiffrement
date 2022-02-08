@@ -64,23 +64,7 @@ export class AppComponent implements OnInit  {
     });
   }
   
-  onSubmit() : void {
-    this.messages.push(this.message);
-    this.broadcastMessage( this.client.id, this.message);
-    this.message ="";
-  }
 
-  sendMessageTo(destinataire : string, message : string) : void{
-    this.messageService.sendMessageTo(this.client.id,destinataire,message); 
-  }
-
-  broadcastMessage(idclient : string ,message : string){
-    this.messageService.broadCastMessage(idclient,message);
-  }
-
-  getClient() : Client  {
-   return this.client;
-  }
 
   ngOnInit(){
     

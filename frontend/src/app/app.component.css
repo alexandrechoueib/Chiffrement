@@ -12,8 +12,26 @@ Button{
     clear: right;
 }
 
+
+#sendMessage{
+    display: block;
+    margin-top: 10px;
+    background-color: #9BFA71;
+    font-weight: bold;
+    border-radius: 5px;
+    float:right;
+}
+
+#messageRecu {
+    float: right;
+    clear: right;
+}
+
 #cadre{
     border: 1px solid black;
     margin-bottom:  10px
 }
 
+li {
+   list-style-type: none;
+}
