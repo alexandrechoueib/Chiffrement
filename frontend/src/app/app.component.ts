@@ -32,6 +32,8 @@ export class AppComponent implements OnInit  {
     this.messageService = new MessageService(socket);
     this.messageService.createClient(this.client);
     this.keyService = new KeyService();
+    
+    
     /**** Test partie cryptage et decryptage ****/
     /*
     
