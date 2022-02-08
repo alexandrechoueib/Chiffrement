@@ -1,4 +1,4 @@
-Button{
+#sendMessage{
     display: block;
     margin-top: 10px;
     background-color: #9BFA71;
@@ -16,4 +16,10 @@ Button{
     border: 1px solid black;
     margin-bottom:  10px
 }
+
+li {
+   list-style-type: none;
+}
+
+
 

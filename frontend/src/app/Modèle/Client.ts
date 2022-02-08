@@ -9,10 +9,15 @@ export class Client implements ClientInterface{
     name : string = "Alex";
     age : number = 27;
     messages : Array<string> = [];
+    private socket : string = "";
+
+    private privateKey : string = "";
+    public publicKey : string ="";
 
     constructor(){
         this.id = this.createID();
     }
+   
 
     addMessage(message : string) : void {
       this.messages.push(message);
@@ -29,5 +34,36 @@ export class Client implements ClientInterface{
     
         return text;
       } 
+
+    setName(name : string): void {
+      this.name = name;
+    }
+    getAge() : number {
+      return this.age;
+    }
+
+    setAge(age : number){
+      this.age = age;
+    }
+
+    getName(): string{
+      return this.name;
+    }
+    getId() : string {
+      return this.id;
+    }
+
+    getSocket(): string{
+      return this.socket;
+    }
+
+    setSocket(socket : string): void{
+      this.socket = socket;
+    }
+
+    setId(id : string){
+      this.id = id;
+    }
+
 
 }
