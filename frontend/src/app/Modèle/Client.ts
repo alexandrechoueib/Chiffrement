@@ -11,8 +11,7 @@ export class Client implements ClientInterface{
     messages : Array<string> = [];
     private socket : string = "";
     private firstConnexion : boolean = true;
-    private privateKey : string = "";
-    public publicKey : string ="";
+  
 
     correspondant : Array<Client> = [] 
 

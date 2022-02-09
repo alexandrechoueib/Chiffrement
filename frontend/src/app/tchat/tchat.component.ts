@@ -69,7 +69,7 @@ export class TchatComponent implements OnInit {
   onSubmit() : void {
     this.kindOfSend();
     this.messages.push(this.message);
-    this.message ="";
+    this.message =" ";
   }
 
 
@@ -89,6 +89,8 @@ export class TchatComponent implements OnInit {
   }
 
   broadcastMessage(idclient : string ,message : string){
+
+    //Cryptage de message 
     this.messageService.broadCastMessage(idclient,message);
   }
 
@@ -110,10 +112,12 @@ export class TchatComponent implements OnInit {
     this.getListOfUsers();
   }
 
+  //Récuperer les messages en broadcast
   async getServerMessage() : Promise<void> {
     this.socket.on('client' ,(data : any) => {
-       if( data.id_envoyeur != this.client.id)
+       if( data.id_envoyeur != this.client.id){
         this.messages.push(data.message);
+       }
     });
   }
 
