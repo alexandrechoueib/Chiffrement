@@ -1,6 +1,6 @@
 #messageRecu
 {
-    float: right;
+    display: block;
     padding: 2%;
     background-color:#87BEF1  ;
 }
