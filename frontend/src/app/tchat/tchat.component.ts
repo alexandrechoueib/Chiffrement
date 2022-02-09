@@ -9,25 +9,16 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
   templateUrl: './tchat.component.html',
   styleUrls: ['./tchat.component.css']
 })
-export class TchatComponent implements OnInit {
+export class TchatComponent  {
 
   @Input() messages : Array<string> = [];
   @Input() message : string = "";
-  @Input() destinataire : string ="";
+  @Input() destinataire : string ="Broadcast";
   @Input() name : string ="";
   @Input() id : string = "";
   messageService : MessageService;
   client : Client ;
   clients : Array<Client> = [];
-
-  
-  ngOnInit(){
-    
-  }
-  
-  ngOnDestroy() {
-    //this.messageService.deleteClient(this.client);
-  }
 
 
   constructor(
@@ -86,7 +77,6 @@ export class TchatComponent implements OnInit {
   }
 
   sendMessageTo(destinataire : Client, message : string) : void{
-    console.log(destinataire);
     this.messageService.sendMessageTo(this.client,destinataire,message); 
   }
 
@@ -115,18 +105,19 @@ export class TchatComponent implements OnInit {
 
   //Récuperer les messages en broadcast
   async getServerMessage() : Promise<void> {
+    var clientTmp = new Client();
     this.socket.on('client' ,(data : any) => {
        if( data.id_envoyeur != this.client.id){
+        clientTmp = this.getClientByID(data.id_envoyeur);
         this.messages.push(data.message);
        }
     });
+    this.client.addCorrespondant(clientTmp) ;
   }
 
   async getMessage() :  Promise<void> {
     this.socket.on('sendTo' ,(data: any) => {
-        console.log(data);
         this.client.addCorrespondant(data.envoyeur);
-        console.log(this.client);
         this.messages.push(data.message);
     });
   }
@@ -143,8 +134,6 @@ export class TchatComponent implements OnInit {
   getClient() : Client {
     return this.client;
   }
-
-
 
 
   /******BOOLEAN */
@@ -165,8 +154,9 @@ export class TchatComponent implements OnInit {
         client.setName(data[i].name);
         client.setAge(data[i].age);
         client.setSocket(data[i].socket);
+        console.log(client);
 
-        if(!this.clientAlreadyExist(client)){
+        if(!this.clientAlreadyExist(client) && this.client.name != client.name){
           this.clients.push(Object.assign(new Client(), client));
         } 
       }

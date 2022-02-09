@@ -1,0 +1,13 @@
+#messageRecu
+{
+    float: right;
+    padding: 2%;
+    background-color:#87BEF1  ;
+}
+
+#sendMessage {
+    float: right;
+    background-color :#0CBBDA;
+    border-radius:  5px;
+    margin-top: 10px;
+}

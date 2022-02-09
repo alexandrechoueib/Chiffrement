@@ -86,9 +86,7 @@ export class Client implements ClientInterface{
 
     isCorrespondant(client : Client) : boolean{
       for(var c in this.correspondant){
-        console.log("****** is correspondant");
-        console.log(this.correspondant[c])
-        if(this.correspondant[c].id == client.getId()) return true;
+        if(this.correspondant[c].id == client.id) return true;
       }
       return false;
 

@@ -90,19 +90,18 @@ io.on('connection',(socket) => {
 
 	
 
-	/*socket.on('disconnect', (socket)=> {
-
+	socket.on('disconnect', (socket)=> {
+		
 		for(let i=0; i < clients.length ; i++){
-			let Loop_id_Socket = clients[i].id_socket;
-			if(socket.id == Loop_id_Socket ){
+			if(socket.id == clients[i].socket ){
+				console.log('user disconnected :' + clients[i].name);
 				clients.slice(i,1);
 				console.log("client supr" + clients.length );
 			}
 		}
-
-		console.log('user disconnected ');
+		console.log('user disconnected :');
 		console.log("Nombre Client :" + clients.length );
-	});*/
+	});
 });
 
 
