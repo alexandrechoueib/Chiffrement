@@ -25,6 +25,15 @@ io.on('connection',(socket) => {
 		previousId = currentId;
 	};
 
+
+	const getSocketClient = (client) => {
+		for(let i=0; i < clients.length ; i++){
+			let Loopclient = clients[i].client;
+			if(Loopclient.name == client.name && Loopclient.age == client.age ) return clients[i].id_socket;
+		}
+		return null;
+	}
+
 	const alreadyExist = client => {
 		for(let i=0; i < clients.length ; i++){
 			let Loopclient = clients[i].client;
@@ -35,6 +44,7 @@ io.on('connection',(socket) => {
 	};
 
 	socket.on('NumberClient', client => {
+		//console.log("Socket id :" + socket.id);
 		socket.emit("clients", clients);
 	});
 
@@ -45,12 +55,12 @@ io.on('connection',(socket) => {
 			console.log("Client déja enregistré !!");
 		}
 		else{
-			client.socket = socket.id;
 			clients.push({
 				'id_socket' : socket.id,
 				'client' :client
 			});
-			console.log("Client registred :" +" name :" + client.name + "id :" +client.id );
+			console.log("Client registred :" + client.id );
+			console.log("Nombre Client :" + clients.length );
 		}	
 	});
 
@@ -61,6 +71,8 @@ io.on('connection',(socket) => {
 			let Loopclient = clients[i].client;
 			if(Loopclient.name == client.name && Loopclient.age == client.age ) socketemp = clients[i].id_socket;
 		}
+		console.log("Envoie du socket :!" + socketemp);
+
 		socket.emit('socket_id', socketemp);
 	})
 
@@ -82,14 +94,25 @@ io.on('connection',(socket) => {
 	});
 
 	socket.on('sendMessageTo', (data) =>{
-				
+		
+		/*for(let i=0; i < clients.length ; i++){
+			let Loopclient = clients[i].client;
+			let id_socket = clients[i].id_socket;
+			console.log("Name :" + Loopclient.name + "socket id : "+ id_socket)
+		}*/
+		
 		io.to(data.id_socket).emit("sendTo" , {
 			'envoyeur' : data.envoyeur,
 			'message' : data.message });
-	    console.log("Envoie du message :" + data.message + " to :" + data.name + " socket :" + data.id_socket + " from :" + data.envoyeur.name);
+	    console.log("Envoie du message :" + data.message + " nom :" + data.name + " socket :" + data.id_socket + " from :" + data.envoyeur.name);
 
 	});
 
+	socket.on('onEditMessage', (data) =>{
+		console.log("Je dois modifier le message d'un client");
+		//socket.to(data.id).emit("client" , Object.keys(data));
+		console.log(`Socket ${socket.id} has connected`);
+	});
 
 	socket.on('disconnect', (socket)=> {
 

@@ -1,0 +1,29 @@
+<li class="list-group-item">
+    <fieldset>
+      <legend>TChat</legend>
+      <p> Bonjour : {{ getClient().name }} </p>
+      <p> Identifiant : {{ getClient().id }} </p>
+      <label for="destinataire"> Select Destinataire </label>
+      <select name="destinataire" id="dest_select" [(ngModel)]="destinataire">
+        <option *ngFor="let client of clients"  value={{client.id}}>{{ client.name }}</option>
+        <option value="Broadcast" >Broadcast</option>
+      </select>
+      <p> Age : {{ getClient().age }} </p>
+      <fieldset id="cadre">
+        <p> Message : </p>
+        <p id="conversation"  id="messageRecu" *ngFor="let message of messages"> {{ message }} </p>
+      </fieldset>
+      <input type="text" style="width : 100%;" name="newMessage" [(ngModel)] ="message" />
+      <button (click) ="onSubmit()" id="sendMessage">Send message</button>
+    </fieldset>
+  
+  
+    <fieldset>
+      <legend>Personnes connectés </legend>
+      <ol>
+        <li *ngFor="let client of clients"><a href="#">{{ client.name }}</a></li>
+      </ol>    
+    </fieldset>
+  </li>
+
+  <router-outlet></router-outlet>
