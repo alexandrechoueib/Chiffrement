@@ -10,14 +10,16 @@ export class Client implements ClientInterface{
     age : number = 27;
     messages : Array<string> = [];
     private socket : string = "";
-
+    private firstConnexion : boolean = true;
     private privateKey : string = "";
     public publicKey : string ="";
+
+    correspondant : Array<Client> = [] 
 
     constructor(){
         this.id = this.createID();
     }
-   
+ 
 
     addMessage(message : string) : void {
       this.messages.push(message);
@@ -65,5 +67,15 @@ export class Client implements ClientInterface{
       this.id = id;
     }
 
+    getMessages(): Array<string>{
+      return this.messages;
+    }
 
+    getFirstConnexion() : boolean {
+      return this.firstConnexion;
+    }
+
+    setFirstConnexion() : void {
+      this.firstConnexion = false;
+    }
 }

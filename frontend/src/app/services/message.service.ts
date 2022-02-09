@@ -41,8 +41,32 @@ export class MessageService {
   }
 
  
-  getClient(id : string): Client {
-   return this.socket.emit('getClient', id);
+  getClient(client : Client): Promise<Client> {
+
+   return new Promise<Client>(resolve => {
+     this.socket.emit('getClient', client);
+
+     this.socket.on('GetClient' , (client : Client) => {
+       console.log("Get Client :");
+       console.log(client);
+       console.log("*********");
+
+       resolve(client);
+     })
+   });
+  }
+
+  getSocketClient(client : Client) : Promise<string> {
+    return new Promise<string>(resolve => {
+      this.socket.emit('getSocket', client);
+      this.socket.on('socket_id' , (socket : string) => {
+        resolve(socket);
+      })
+    });
+  }
+
+  deleteClient(client : Client):void{
+    this.socket.emit('disconnect', client);
   }
   
   public messageEncryption(message : string, e : bigint, n : bigint) : bigint[]{

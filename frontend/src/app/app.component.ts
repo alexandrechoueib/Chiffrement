@@ -30,7 +30,7 @@ export class AppComponent implements OnInit  {
       private socket : Socket,
   ){
     this.messageService = new MessageService(socket);
-    this.messageService.createClient(this.client);
+    //this.messageService.createClient(this.client);
     this.keyService = new KeyService();
     
     

@@ -61,13 +61,28 @@ io.on('connection',(socket) => {
 			});
 			console.log("Client registred :" + client.id );
 			console.log("Nombre Client :" + clients.length );
-		}
-	
+		}	
 	});
 
-	socket.on('getClient' , id_client => {
-		safeJoin(id_client);
-		socket.emit("client" , clients[id_client]);
+
+	socket.on('getSocket', client => {
+		var socketemp;
+		for(let i=0; i < clients.length ; i++){
+			let Loopclient = clients[i].client;
+			if(Loopclient.name == client.name && Loopclient.age == client.age ) socketemp = clients[i].id_socket;
+		}
+		socket.emit('socket_id', socketemp);
+	})
+
+	socket.on('getClient' , client => {
+		safeJoin(client.id);
+		var clientSend ;
+		for(let i=0; i < clients.length ; i++){
+			let Loopclient = clients[i].client;
+			if(Loopclient.name == client.name && Loopclient.age == client.age ) clientSend = Loopclient;
+		}
+
+		socket.emit("GetClient" , clientSend);
 	});
 
 
@@ -95,11 +110,15 @@ io.on('connection',(socket) => {
 		console.log(`Socket ${socket.id} has connected`);
 	});
 
-	socket.on('disconnect', (client)=> {
+	socket.on('disconnect', (socket)=> {
+
 		for(let i=0; i < clients.length ; i++){
-			let Loopclient = clients[i].client;
-			if(Loopclient.name == client.name && Loopclient.age == client.age){
+			console.log(socket.id);
+			let Loop_id_Socket = clients[i].id_socket;
+			console.log(Loop_id_Socket)
+			if(socket.id == Loop_id_Socket ){
 				clients.slice(i,1);
+				console.log("client supr" + clients.length );
 			}
 		}
 
