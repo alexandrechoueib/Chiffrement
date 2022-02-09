@@ -69,7 +69,7 @@ export class TchatComponent implements OnInit {
   onSubmit() : void {
     this.kindOfSend();
     this.messages.push(this.message);
-    this.message =" ";
+    this.message ="";
   }
 
 
@@ -79,17 +79,18 @@ export class TchatComponent implements OnInit {
       this.broadcastMessage( this.client.id, this.message);
     }
     else {
+      console.log("Destinataire:" +this.destinataire);
       var clientSelect = this.getClientByID(this.destinataire);
       clientSelect == null ? {} : this.sendMessageTo(clientSelect,this.message); 
     }
   }
 
   sendMessageTo(destinataire : Client, message : string) : void{
+    console.log(destinataire);
     this.messageService.sendMessageTo(this.client,destinataire,message); 
   }
 
   broadcastMessage(idclient : string ,message : string){
-
     //Cryptage de message 
     this.messageService.broadCastMessage(idclient,message);
   }
@@ -124,6 +125,8 @@ export class TchatComponent implements OnInit {
   async getMessage() :  Promise<void> {
     this.socket.on('sendTo' ,(data: any) => {
         console.log(data);
+        this.client.addCorrespondant(data.envoyeur);
+        console.log(this.client);
         this.messages.push(data.message);
     });
   }
@@ -158,14 +161,14 @@ export class TchatComponent implements OnInit {
     this.socket.on('clients', (data :any) => {
       for(let i = 0 ; i < data.length ; i++){
         var client = new Client();
-        client.setId(data[i].client.id);
-        client.setName(data[i].client.name);
-        client.setAge(data[i].client.age);
-        client.setSocket(data[i].id_socket);
+        client.setId(data[i].id);
+        client.setName(data[i].name);
+        client.setAge(data[i].age);
+        client.setSocket(data[i].socket);
 
         if(!this.clientAlreadyExist(client)){
           this.clients.push(Object.assign(new Client(), client));
-        }  
+        } 
       }
     });
   }

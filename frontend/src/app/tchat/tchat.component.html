@@ -5,7 +5,7 @@
       <p> Identifiant : {{ getClient().id }} </p>
       <label for="destinataire"> Select Destinataire </label>
       <select name="destinataire" id="dest_select" [(ngModel)]="destinataire">
-        <option *ngFor="let client of clients"  value={{client.id}}>{{ client.name }}</option>
+        <option *ngFor="let client of clients" value="{{ client.id }}">{{ client.name }}</option>
         <option value="Broadcast" >Broadcast</option>
       </select>
       <p> Age : {{ getClient().age }} </p>

@@ -47,10 +47,6 @@ export class MessageService {
      this.socket.emit('getClient', client);
 
      this.socket.on('GetClient' , (client : Client) => {
-       console.log("Get Client message service :");
-       console.log(client);
-       console.log("*********");
-
        resolve(client);
      })
    });

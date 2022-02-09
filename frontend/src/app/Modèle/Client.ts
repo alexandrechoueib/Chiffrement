@@ -77,4 +77,21 @@ export class Client implements ClientInterface{
     setFirstConnexion() : void {
       this.firstConnexion = false;
     }
+
+    addCorrespondant(client : Client) : void{
+      if(!this.isCorrespondant(client)){
+        this.correspondant.push(client);
+      }
+    }
+
+    isCorrespondant(client : Client) : boolean{
+      for(var c in this.correspondant){
+        console.log("****** is correspondant");
+        console.log(this.correspondant[c])
+        if(this.correspondant[c].id == client.getId()) return true;
+      }
+      return false;
+
+    }
+
 }

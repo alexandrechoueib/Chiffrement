@@ -17,34 +17,24 @@ const io = require('socket.io')(server,{
 
 
 io.on('connection',(socket) => {
-	let previousId;
-
-	const safeJoin = currentId => {
-		socket.leave(previousId);
-		socket.join(currentId, () => console.log(`Socket ${socket.id} joined room ${currentId}`));
-		previousId = currentId;
-	};
 
 
 	const getSocketClient = (client) => {
 		for(let i=0; i < clients.length ; i++){
-			let Loopclient = clients[i].client;
-			if(Loopclient.name == client.name && Loopclient.age == client.age ) return clients[i].id_socket;
+			if(clients[i].name == client.name && clients[i].age == client.age ) return clients[i].socket;
 		}
 		return null;
 	}
 
 	const alreadyExist = client => {
 		for(let i=0; i < clients.length ; i++){
-			let Loopclient = clients[i].client;
-			if(Loopclient.name == client.name && Loopclient.age == client.age ) return true;
+			if(clients[i].name == client.name && clients[i].age == client.age ) return true;
 		}
 
 		return false;
 	};
 
 	socket.on('NumberClient', client => {
-		//console.log("Socket id :" + socket.id);
 		socket.emit("clients", clients);
 	});
 
@@ -55,10 +45,8 @@ io.on('connection',(socket) => {
 			console.log("Client déja enregistré !!");
 		}
 		else{
-			clients.push({
-				'id_socket' : socket.id,
-				'client' :client
-			});
+			client.socket = socket.id;
+			clients.push(client);
 			console.log("Client registred :" + client.id );
 			console.log("Nombre Client :" + clients.length );
 		}	
@@ -68,20 +56,18 @@ io.on('connection',(socket) => {
 	socket.on('getSocket', client => {
 		var socketemp;
 		for(let i=0; i < clients.length ; i++){
-			let Loopclient = clients[i].client;
-			if(Loopclient.name == client.name && Loopclient.age == client.age ) socketemp = clients[i].id_socket;
+			if(clients[i].name == client.name && clients[i].age == client.age ) {
+				socketemp = clients[i].socket;
+			}
 		}
-		console.log("Envoie du socket :!" + socketemp);
-
 		socket.emit('socket_id', socketemp);
+		
 	})
 
 	socket.on('getClient' , client => {
-		safeJoin(client.id);
 		var clientSend ;
 		for(let i=0; i < clients.length ; i++){
-			let Loopclient = clients[i].client;
-			if(Loopclient.name == client.name && Loopclient.age == client.age ) clientSend = Loopclient;
+			if(clients[i].name == client.name && clients[i].age == client.age ) clientSend = clients[i];
 		}
 
 		socket.emit("GetClient" , clientSend);
@@ -94,32 +80,20 @@ io.on('connection',(socket) => {
 	});
 
 	socket.on('sendMessageTo', (data) =>{
-		
-		/*for(let i=0; i < clients.length ; i++){
-			let Loopclient = clients[i].client;
-			let id_socket = clients[i].id_socket;
-			console.log("Name :" + Loopclient.name + "socket id : "+ id_socket)
-		}*/
-		
+				
 		io.to(data.id_socket).emit("sendTo" , {
 			'envoyeur' : data.envoyeur,
 			'message' : data.message });
-	    console.log("Envoie du message :" + data.message + " nom :" + data.name + " socket :" + data.id_socket + " from :" + data.envoyeur.name);
+	    console.log("Envoie du message :" + data.message + "to  :" + data.name + " socket :" + data.id_socket + " from :" + data.envoyeur.name);
 
 	});
 
-	socket.on('onEditMessage', (data) =>{
-		console.log("Je dois modifier le message d'un client");
-		//socket.to(data.id).emit("client" , Object.keys(data));
-		console.log(`Socket ${socket.id} has connected`);
-	});
+	
 
-	socket.on('disconnect', (socket)=> {
+	/*socket.on('disconnect', (socket)=> {
 
 		for(let i=0; i < clients.length ; i++){
-			console.log(socket.id);
 			let Loop_id_Socket = clients[i].id_socket;
-			console.log(Loop_id_Socket)
 			if(socket.id == Loop_id_Socket ){
 				clients.slice(i,1);
 				console.log("client supr" + clients.length );
@@ -128,7 +102,7 @@ io.on('connection',(socket) => {
 
 		console.log('user disconnected ');
 		console.log("Nombre Client :" + clients.length );
-	});
+	});*/
 });
 
 
