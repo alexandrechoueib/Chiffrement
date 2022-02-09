@@ -13,8 +13,7 @@ export class MessageService {
 
   constructor(
     private socket : Socket,
-  ){
-  }
+  ){}
 
   etablishConnection() : void {
    this.socket.connect();
@@ -25,8 +24,9 @@ export class MessageService {
   }
 
 
-  sendMessageTo(destinataire : Client , message : String ): void {
+  sendMessageTo(envoyeur : Client, destinataire : Client , message : String ): void {
     this.socket.emit('sendMessageTo', {
+      'envoyeur' : envoyeur,
       'id_socket' : destinataire.getSocket(),
       'name' : destinataire.getName(),
       'message' : message
@@ -47,7 +47,7 @@ export class MessageService {
      this.socket.emit('getClient', client);
 
      this.socket.on('GetClient' , (client : Client) => {
-       console.log("Get Client :");
+       console.log("Get Client message service :");
        console.log(client);
        console.log("*********");
 
